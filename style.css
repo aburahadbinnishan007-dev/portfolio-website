@@ -558,3 +558,29 @@ nav{
     background: #38bdf8;
     color: white !important;
 }
+/* ---------- Project Tags Fix ---------- */
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+.tech-tags span {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #0f172a;
+    color: #38bdf8;
+    border: 1px solid #38bdf8;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+
+/* ---------- Reduce Skills to Projects Gap ---------- */
+
+.projects {
+    padding-top: 40px;
+}
