@@ -1,3 +1,6 @@
+alert("SCRIPT JS WORKING");
+// ================= TYPING EFFECT =================
+
 const texts = [
     "CSE Student",
     "Aspiring Software Developer",
@@ -5,72 +8,117 @@ const texts = [
     "Python Developer"
 ];
 
-let count = 0;
-let index = 0;
-let currentText = "";
-let letter = "";
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
 
-(function type(){
+const typingElement = document.querySelector(".typing");
 
-    if(count === texts.length){
-        count = 0;
-    }
+function typeEffect() {
 
-    currentText = texts[count];
-    letter = currentText.slice(0, ++index);
+    if (!typingElement) return;
 
-    document.querySelector(".typing").textContent = letter;
+    const currentText = texts[textIndex];
 
-    if(letter.length === currentText.length){
+    if (!isDeleting) {
 
-        setTimeout(() => {
+        typingElement.textContent =
+            currentText.substring(0, charIndex + 1);
 
-            index = 0;
-            count++;
+        charIndex++;
 
-            type();
+        if (charIndex === currentText.length) {
 
-        },1500);
+            isDeleting = true;
 
-    }else{
-
-        setTimeout(type,100);
-
-    }
-
-})();
-// Scroll To Top Button
-
-const topBtn = document.getElementById("topBtn");
-
-window.onscroll = function () {
-
-    if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-
-        topBtn.style.display = "block";
+            setTimeout(typeEffect, 1500);
+            return;
+        }
 
     } else {
 
-        topBtn.style.display = "none";
+        typingElement.textContent =
+            currentText.substring(0, charIndex - 1);
 
+        charIndex--;
+
+        if (charIndex === 0) {
+
+            isDeleting = false;
+
+            textIndex++;
+
+            if (textIndex === texts.length) {
+                textIndex = 0;
+            }
+        }
     }
 
-};
+    setTimeout(
+        typeEffect,
+        isDeleting ? 70 : 120
+    );
+}
 
-topBtn.onclick = function () {
+typeEffect();
 
-    window.scrollTo({
 
-        top: 0,
+// ================= SCROLL TO TOP =================
 
-        behavior: "smooth"
+const topBtn = document.getElementById("topBtn");
+
+if (topBtn) {
+
+    // Hide button when page loads
+    topBtn.style.display = "none";
+
+    window.addEventListener("scroll", function () {
+
+        if (window.scrollY > 300) {
+            topBtn.style.display = "flex";
+        } else {
+            topBtn.style.display = "none";
+        }
 
     });
 
-};
+    topBtn.addEventListener("click", function () {
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+}
+
+
+// ================= MOBILE MENU =================
+
 const menuToggle = document.getElementById("menuToggle");
 const navMenu = document.getElementById("navMenu");
 
-menuToggle.addEventListener("click", function () {
-    navMenu.classList.toggle("active");
-});
+if (menuToggle && navMenu) {
+
+    menuToggle.addEventListener("click", function () {
+
+        navMenu.classList.toggle("active");
+
+    });
+
+
+    // Close menu after clicking a link
+
+    const navLinks = navMenu.querySelectorAll("a");
+
+    navLinks.forEach(function (link) {
+
+        link.addEventListener("click", function () {
+
+            navMenu.classList.remove("active");
+
+        });
+
+    });
+
+}
